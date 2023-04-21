@@ -1,0 +1,21 @@
+version: "3.1"
+
+nlu:
+  - intent: buy_product
+    examples: |
+      - i want to buy a product
+      - can you show me some [jeans](product) I want to buy
+      - i would like to purchase [t-shirt](product)
+
+  - intent: search_product
+    examples: |
+      - show me jeans
+      - do you have women's jewellery?
+      - I would like to browse some books
+      - can you show me men's jacket
+
+  - intent: add_to_cart
+    examples: |
+      - add to cart
+      - i want to add this in cart
+      - can you add this to cart
