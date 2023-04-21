@@ -5,12 +5,6 @@ intents:
   - goodbye
   - affirm
   - deny
-  - out_of_scope
-  - buy_product
-  - search_product
-  - add_to_cart
-  - faq
-  - nlu_fallback
 
 responses:
   utter_greet:
