@@ -24,6 +24,9 @@ pipeline:
 - name: ResponseSelector
   epochs: 100
   retrieval_intent: faq
+- name: DucklingEntityExtractor
+  dimensions: ["email", "number"]
+  url: "http://localhost:8000"
 - name: FallbackClassifier
   threshold: 0.3
   ambiguity_threshold: 0.1
@@ -39,3 +42,4 @@ policies:
   max_history: 5
   epochs: 100
 - name: RulePolicy
+assistant_id: 20230506-153957-fixed-pole

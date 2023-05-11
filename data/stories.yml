@@ -6,25 +6,20 @@ stories:
   steps:
   - intent: greet
   - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
 
-- story: sad path 1
+- story: feedback form - activate
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
+    - intent: feedback
+    - action: feedback_form
+    - active_loop: feedback_form
 
-- story: sad path 2
+
+- story: feedback form - deactivate
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
+    - intent: feedback
+    - action: feedback_form
+    - active_loop: feedback_form
+    - active_loop: null
+    - slot_was_set:
+        - requested_slot: null
+    - action: utter_thanks

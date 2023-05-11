@@ -7,12 +7,38 @@ rules:
   - intent: goodbye
   - action: utter_goodbye
 
-- rule: Say 'I am a bot' anytime the user challenges
+- rule: login form - activate
+  condition:
+  - slot_was_set:
+      - is_login: false
+  - active_loop: null
   steps:
-  - intent: bot_challenge
-  - action: utter_iamabot
+    - intent: add_to_cart
+    - action: login_form
+    - active_loop: login_form
 
-- rule: faq
+- rule: login form - deactivate
+  condition:
+    - active_loop: login_form
   steps:
-    - intent: faq
-    - action: utter_faq
+    - action: login_form
+    - active_loop: login_form
+    - active_loop: null
+    - action: action_login_success
+
+- rule: feedback form - activate
+  condition:
+  - active_loop: null
+  steps:
+    - intent: feedback
+    - action: feedback_form
+    - active_loop: feedback_form
+
+- rule: feedback form - deactivate
+  condition:
+    - active_loop: feedback_form
+  steps:
+    - action: feedback_form
+    - active_loop: feedback_form
+    - active_loop: null
+    - action: utter_thanks

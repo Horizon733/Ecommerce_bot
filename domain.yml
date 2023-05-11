@@ -5,6 +5,80 @@ intents:
   - goodbye
   - affirm
   - deny
+  - feedback
+  - add_to_cart
+
+entities:
+  - email
+  - number
+
+slots:
+  email:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: email
+        conditions:
+          - requested_slot: email
+            active_loop: feedback_form
+          - requested_slot: email
+            active_loop: login_form
+  otp:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: number
+        conditions:
+          - requested_slot: otp
+            active_loop: login_form
+  correct_otp:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+  is_login:
+    type: text
+    influence_conversation: true
+    initial_value: false
+    mappings:
+      - type: custom
+  name:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_text
+        conditions:
+          - requested_slot: name
+            active_loop: feedback_form
+  feedback:
+    type: categorical
+    influence_conversation: false
+    values:
+      - good
+      - bad
+    mappings:
+      - type: from_text
+        conditions:
+          - requested_slot: feedback
+            active_loop: feedback_form
+  ask_feedback:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_intent
+        intent: affirm
+        value: yes
+        conditions:
+          - requested_slot: ask_feedback
+            active_loop: feedback_form
+      - type: from_intent
+        intent: deny
+        value: no
+        conditions:
+          - requested_slot: ask_feedback
+            active_loop: feedback_form
 
 responses:
   utter_greet:
@@ -26,6 +100,54 @@ responses:
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
 
+  utter_ask_login_form_email:
+    - text: "Can you please provide me your email id for login?"
+
+  utter_ask_feedback_form_email:
+    - text: "Can you please share your email for capturing feedback?"
+
+  utter_otp:
+    - text: "Please share the otp sent on your mail"
+
+  utter_ask_name:
+    - text: "For capturing feedback, can you please share your name?"
+
+  utter_ask_feedback:
+    - buttons:
+        - title: 😍
+          payload: Good
+        - title: 😞
+          payload: Bad
+      text: "Can you please share your feedback on previous conversation and results"
+
+  utter_ask_ask_feedback:
+    - buttons:
+        - title: Yes
+          payload: Yes
+        - title: No
+          payload: No
+      text: Would you like to give feedback for previous conversation?
+
+  utter_thanks:
+    - text: "Thanks!"
+  utter_login_success:
+    - text: "you have been logged in!"
+
+actions:
+  - action_ask_otp
+  - action_save_feedback
+  - action_login_success
+  - validate_login_form
+  - validate_feedback_form
+
+forms:
+  login_form:
+    required_slots:
+      - email
+      - otp
+  feedback_form:
+    required_slots:
+      - ask_feedback
 
 session_config:
   session_expiration_time: 60
